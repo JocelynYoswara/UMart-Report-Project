@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Sales Report Generator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo-container">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="EPOS Logo" class="logo"> 
+    </div>
+  </header>
+
+  <!-- Main Content Box -->
+  <main class="main-container">
+    <div class="title">
+      <h2>Product Sales Report Generator</h2>
+    </div>
+    <div class="content-box">
+      <form class="form">
+        <div class="form-group">
+          <label for="file-input" class="subtitle">Upload File</label>
+          <p class="description">
+            Please upload a CSV file exported from the sales report system. Only files in <strong>.csv</strong> format are accepted.
+          </p>
+          <div class="custom-file-wrapper">
+            <label for="file-input" class="custom-file-upload">
+              <img src="{{ url_for('static', filename='img/upload.png') }}" alt="Upload Icon" class="upload-icon"> Choose File
+            </label>
+            <span id="file-name">No file chosen</span> 
+            <img id="state-image" src="{{ url_for('static', filename='img/wrong.png') }}" alt="state" width="20px" height="20px">
+          </div>
+
+          <!-- Hidden File Input -->
+          <input type="file" id="file-input" accept=".csv" hidden>
+          <p id="file-error" class="error-message"></p> <!-- File error message -->
+        </div>        
+
+        <div class="form-group select-wrapper">
+          <label for="combo-input">Select Product Category</label>
+          <div class="input-wrapper">
+            <input type="text" id="combo-input" placeholder="Product Category...">
+            <img class="dropdown-icon" src="{{ url_for('static', filename='img/dropdown.png') }}" alt="Dropdown Icon">
+          </div>
+          <div class="dropdown-list">
+            <ul id="dropdown-options"></ul>
+          </div>
+          <div id="selected-items"></div> 
+        </div>                  
+        
+        <button type="button" id="export-btn" class="btn-submit">Export Processed File</button>
+      </form>
+    </div>
+  </main>
+
+</body>
+<script>
+   const loadingFileImageUrl = "{{ url_for('static', filename='img/tube-spinner.svg') }}";
+   const validFileImageUrl = "{{ url_for('static', filename='img/success.png') }}";
+   const invalidFileImageUrl = "{{ url_for('static', filename='img/wrong.png') }}"; 
+   const exportingImageUrl = "{{ url_for('static', filename='img/gear-spinner.svg') }}"
+</script>
+</html>
