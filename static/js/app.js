@@ -286,6 +286,8 @@ function checkCheckboxes() {
           stateImage.style.display = "block";
         } else {
           fileError.textContent = "Error: No categories found!";
+          fileError.style.color = "red";
+          fileError.style.fontWeight = "bold";
           stateImage.src = invalidFileImageUrl;  
           stateImage.style.display = "block";
         }

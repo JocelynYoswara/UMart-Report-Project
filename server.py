@@ -3,6 +3,7 @@ from flask_cors import CORS
 import pandas as pd
 import os
 import re
+import tempfile
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -26,8 +27,9 @@ def upload_file():
     if not file.filename.endswith(".csv"):
         return jsonify({"error": "Invalid file type"}), 400
 
-    file_path = os.path.join(UPLOAD_FOLDER, file.filename)
-    file.save(file_path)
+    with tempfile.NamedTemporaryFile(delete=False, mode='w', newline='', encoding='utf-8') as tmpfile:
+    file.save(tmpfile.name)
+    df = pd.read_csv(tmpfile.name, dtype=str)
 
     try:
         df = pd.read_csv(file_path, dtype=str)
