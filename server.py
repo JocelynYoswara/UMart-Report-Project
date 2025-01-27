@@ -27,22 +27,20 @@ def upload_file():
     if not file.filename.endswith(".csv"):
         return jsonify({"error": "Invalid file type"}), 400
 
-    with tempfile.NamedTemporaryFile(delete=False, mode='w', newline='', encoding='utf-8') as tmpfile:
-        file.save(tmpfile.name)
-        df = pd.read_csv(tmpfile.name, dtype=str)
-
     try:
-        df = pd.read_csv(file_path, dtype=str)
+        with tempfile.NamedTemporaryFile(delete=False, mode='w', newline='', encoding='utf-8') as tmpfile:
+            file.save(tmpfile.name)
+            df = pd.read_csv(tmpfile.name, dtype=str)
 
-        if "Product Category" not in df.columns:
-            return jsonify({"error": "Column 'Product Category' not found in file"}), 400
+            if "Product Category" not in df.columns:
+                return jsonify({"error": "Column 'Product Category' not found in file"}), 400
 
-        product_categories = df["Product Category"].dropna().unique().tolist()
-        product_categories = [cat.strip() for cat in product_categories if cat.strip()]
+            product_categories = df["Product Category"].dropna().unique().tolist()
+            product_categories = [cat.strip() for cat in product_categories if cat.strip()]
 
-        return jsonify({"categories": product_categories})
+            return jsonify({"categories": product_categories})
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": f"Error processing file: {str(e)}"}), 500
 
 @app.route("/export", methods=["POST"])
 def export_file():
