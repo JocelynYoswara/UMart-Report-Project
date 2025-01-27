@@ -272,7 +272,7 @@ function checkCheckboxes() {
     const formData = new FormData();
     formData.append("file", file);
 
-    fetch("http://product-sales-report-generator.onrender.com/upload", { 
+    fetch("https://product-sales-report-generator.onrender.com/upload", { 
       method: "POST",
       body: formData
     })
@@ -314,7 +314,7 @@ function checkCheckboxes() {
     exportButton.style.backgroundColor = '#cccccc';  
     exportButton.disabled = true;
 
-    fetch("http://product-sales-report-generator.onrender.com/export", {
+    fetch("https://product-sales-report-generator.onrender.com/export", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
