@@ -28,8 +28,8 @@ def upload_file():
         return jsonify({"error": "Invalid file type"}), 400
 
     with tempfile.NamedTemporaryFile(delete=False, mode='w', newline='', encoding='utf-8') as tmpfile:
-    file.save(tmpfile.name)
-    df = pd.read_csv(tmpfile.name, dtype=str)
+        file.save(tmpfile.name)
+        df = pd.read_csv(tmpfile.name, dtype=str)
 
     try:
         df = pd.read_csv(file_path, dtype=str)
