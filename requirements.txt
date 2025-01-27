@@ -4,4 +4,5 @@ packaging==24.2
 pandas
 openpyxl
 xlsxwriter
+flask-cors
 
