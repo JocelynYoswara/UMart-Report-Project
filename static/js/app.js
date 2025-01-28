@@ -242,6 +242,8 @@ function checkCheckboxes() {
 
     if (!file) {
       fileNameDisplay.textContent = "No file chosen"; 
+      fileError.style.color = "red";
+      fileError.style.fontWeight = "bold";
       return;
     }
 
@@ -294,6 +296,9 @@ function checkCheckboxes() {
       })
       .catch(error => {
         console.error("Error uploading file:", error);
+        fileError.textContent = "Error uploading file!"
+        fileError.style.color = "red";
+        fileError.style.fontWeight = "bold";
         stateImage.src = invalidFileImageUrl; 
         stateImage.style.display = "block";
       });
