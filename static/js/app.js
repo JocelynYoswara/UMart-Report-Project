@@ -307,6 +307,14 @@ function checkCheckboxes() {
   exportButton.addEventListener("click", function (event) {
     event.preventDefault();
 
+    const fileInput = document.getElementById("file-input");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please upload a file before exporting.");
+        return;
+    }
+
     if (selectedOptions.size === 0) {
         alert("Please select at least one product category.");
         return;
@@ -321,12 +329,14 @@ function checkCheckboxes() {
     exportButton.style.backgroundColor = '#cccccc';  
     exportButton.disabled = true;
 
+    // Create FormData and append file & selected categories
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("selected_categories", JSON.stringify(Array.from(selectedOptions))); // Convert to JSON string
+
     fetch("/export", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ selected_categories: Array.from(selectedOptions) }),
+        body: formData,  // No Content-Type header, it will be set automatically
     })
     .then((response) => {
         if (!response.ok) {
@@ -348,20 +358,16 @@ function checkCheckboxes() {
         a.click();
         window.URL.revokeObjectURL(url);
 
-        //After downloading, reset the button state
+        // Reset button after export
         resetExportButton();
     })
     .catch((error) => {
         console.error("Error during file export:", error);
-        if (error instanceof Error) {
-          alert("An error occurred: " + error.message);
-        } else {
-          console.error("Raw error data:", error);
-        }
-
+        alert("An error occurred: " + error.message);
         resetExportButton();
     });
-  });
+});
+
   function resetExportButton() {
     exportButton.innerHTML = 'Export Processed File';  
     exportButton.style.backgroundColor = '#28a745';  
